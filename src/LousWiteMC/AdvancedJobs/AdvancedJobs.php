@@ -116,6 +116,7 @@ class AdvancedJobs extends PluginBase{
 			return $jobProgress*4;
 		}elseif($jobType == "builder"){
 			return $jobProgress*4;
+		}
 	}
 
 	public function addProgress(Player $player){
