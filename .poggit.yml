@@ -1,0 +1,9 @@
+--- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/LousWiteMC/AdvancedJobs
+build-by-default: true
+branches:
+- master
+projects:
+  AdvancedJobs:
+    icon: icon.png
+    path: ""
+...
