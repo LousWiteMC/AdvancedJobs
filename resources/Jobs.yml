@@ -1,0 +1,27 @@
+---
+#AdvancedJobs | Jobs Manager
+#Please add job in order from 1 ->3,4,5,6,7........
+#There are  5 types of Job: killer, wood-cutter, miner, builder
+#Salary is money earned when player complete an progress!
+#Look at the example:
+1:
+  Name: "Wood Cutter"
+  Job-Type: "wood-cutter"
+  Information: "Go and cut some woods to up your progress and get money(s)!"
+  Salary: 15000
+2:
+  Name: "Assassin"
+  Job-Type: "killer"
+  Information: "Go to kill someone to up your progress and get money(s)!"
+  Salary: 30000
+3:
+  Name: "Ore Miner"
+  Job-Type: "miner"
+  Information: "Go mining to up your progress and get money(s)!"
+  Salary: 15000 
+4:
+  Name: "Builder"
+  Job-Type: "builder"
+  Information: "Go building to up your progress and get money(s)"
+  Salary: 10000
+...

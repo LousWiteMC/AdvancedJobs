@@ -1,0 +1,29 @@
+#AdvancedJobs | Language Config
+
+
+#Form display when player haven't a job
+IntroForm-Title: "Jobs Manager"
+IntroForm-Content: "You haven't a job!"
+IntroForm-ChooseJob-Button: "Join A Job?"
+
+#Form display when player have a job
+#Use {JobName}, {JobInformation}, {JobProgress}, {JobNextProgress}
+ManagerForm-Title: "Jobs Manager"
+ManagerForm-Content: "Your Job: {JobName}\nProgress: {JobProgress}/{JobNextProgress}\n\nJob Information: {JobInformation}"
+ManagerForm-QuitJob-Button: "Quit Job?"
+
+#Form display when player want to join a job
+ChooseJobForm-Title: "Jobs Manager"
+ChooseJobForm-Content: "Choose a job you want to do"
+ChoosedJob-Message: "You successfully joined {JobName} Job! Use /job to see information!"
+
+#Form display when player to out a job
+OutJobForm-Title: "Jobs Manager"
+OutJobForm-Content: "Are you sure to out job {JobName}?"
+Success-OutJob-Message: "You successfully quited the job!"
+Yes-Button: "Yes"
+No-Button: "No"
+
+#All when player doing job:
+Working-Popup: "Job Progress Now: {Progress}/{NextProgress}"
+Done-Progress-Message: "You completed your Job Progress now!\nSalary: ${Salary}, /job to see new Progress!"
