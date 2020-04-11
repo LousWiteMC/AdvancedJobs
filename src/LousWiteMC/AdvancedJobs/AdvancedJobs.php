@@ -1,6 +1,7 @@
 <?php
 
 namespace LousWiteMC\AdvancedJobs;
+
 use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
 use pocketmine\Player;
