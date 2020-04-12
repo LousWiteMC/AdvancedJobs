@@ -6,4 +6,7 @@ projects:
   AdvancedJobs:
     icon: icon.png
     path: ""
+    libs:
+    - src: dktapps\pmforms
+      version: ^1.0
 ...
