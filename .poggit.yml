@@ -7,6 +7,10 @@ projects:
     icon: icon.png
     path: ""
     libs:
+<<<<<<< HEAD
     - src: dktapps/pmforms/
+=======
+    - src: dktapps-pm-pl/pmforms/pmforms/
+>>>>>>> 0ceeaf46033a930ec1f7cd2346af1cd2835b0c01
       version: ^1.0.0
 ...
