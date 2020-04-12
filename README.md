@@ -1,5 +1,5 @@
 # AdvancedJobs | LousWiteMC
-[![](https://poggit.pmmp.io/shield.state/AdvancedJobs)]
+![](https://poggit.pmmp.io/shield.state/AdvancedJobs)
 
 
 Advanced Jobs | PocketMine-MP Plugin - MCBE 1.14
