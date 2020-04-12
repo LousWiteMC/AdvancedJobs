@@ -228,7 +228,7 @@ class AdvancedJobs extends PluginBase{
 		$form = new ModalForm(
 		$this->settings->get("OutJobForm-Title"),
 		$content,
-		function(Player $submitter, bool $selected) use ($jobId) :void{
+		function(Player $submitter, bool $selected) :void{
 			switch($selected){
 				case true:
 				$this->outJob($submitter);
