@@ -14,6 +14,12 @@ class AdvancedJobs extends PluginBase{
 
 	public $data;
 
+	public $jobs;
+
+	public $settings;
+
+	public $money;
+
 	public function onEnable() : void{
 		$this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
 		$this->data = new Config($this->getDataFolder() . "PlayerData.yml", Config::YAML);
