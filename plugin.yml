@@ -1,7 +1,7 @@
 name: AdvancedJobs
 api: 3.11.4
 author: LousWiteMC
-version: 0.1
+version: 0.2
 main: LousWiteMC\AdvancedJobs\AdvancedJobs
 commands:
   job:
