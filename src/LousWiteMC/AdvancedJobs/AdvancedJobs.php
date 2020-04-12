@@ -231,7 +231,7 @@ class AdvancedJobs extends PluginBase{
 		function(Player $submitter, bool $selected) use ($jobId) :void{
 			switch($selected){
 				case true:
-				$this->outJob($submitter, $jobId);
+				$this->outJob($submitter);
 				$submitter->sendMessage($this->settings->get("Success-OutJob-Message"));
 				return;
 				case false:
