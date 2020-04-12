@@ -13,6 +13,8 @@ use pocketmine\block\{Wood, Wood2, DiamondOre, Diamond, Iron, IronOre, Gold, Gol
 use pocketmine\entity\{Animal, Monster};
 
 class EventListener implements Listener{
+	
+	public $plugin;
 
 	public function __construct(AdvancedJobs $plugin){
 		$this->plugin = $plugin;
