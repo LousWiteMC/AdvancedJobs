@@ -38,8 +38,13 @@ class AdvancedJobs extends PluginBase{
 	public function joinJob(Player $player, int $idJob){
 		$name = strtolower($player->getName());
 		$jobName = $this->jobs->get($idJob)["Name"];
-		$this->data->set($name, ["JobID" => "{$idJob}", "JobName" => "{$jobName}", "Progress" => 0, "Default-Next-Progress" => 1]);
-		$this->data->save();
+		if($this->getJobType($idJob) == "killer"){
+			$this->data->set($name, ["JobID" => "{$idJob}", "JobName" => "{$jobName}", "Progress" => 0, "Default-Next-Progress" => 0]);
+			$this->data->save();
+		}else{
+			$this->data->set($name, ["JobID" => "{$idJob}", "JobName" => "{$jobName}", "Progress" => 0, "Default-Next-Progress" => 1]);
+			$this->data->save();			
+		}
 	}
 
 	public function getJobName(int $idJob){
