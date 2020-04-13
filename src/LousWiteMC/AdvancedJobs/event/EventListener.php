@@ -47,7 +47,6 @@ class EventListener implements Listener{
 			}
 		}
 	}
-
 	public function onKill(PlayerDeathEvent $event){
 		$entity = $event->getEntity();
 		$cause = $entity->getLastDamageCause();
@@ -58,8 +57,9 @@ class EventListener implements Listener{
 					if($entity instanceof Player){
 						if($this->plugin->getJob($player) == "killer"){
 							$jobId = $this->plugin->getJobID($player);
-							$player->sendPopup("+1500$ For Job!");
-							$this->plugin->money->addMoney($player, $this->plugin->jobs->get($jobId)["Salary"]);
+							$money = $this->plugin->jobs->get($jobId)["Salary"];
+							$player->sendPopup("+{$money}$ For Job!");
+							$this->plugin->money->addMoney($player, $money);
 						}
 					}
 				}
