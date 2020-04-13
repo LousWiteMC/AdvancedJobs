@@ -12,8 +12,8 @@
 2:
   Name: "Assassin"
   Job-Type: "killer"
-  Information: "Go to kill someone to up your progress and get money(s)!"
-  Salary: 30000
+  Information: "Go and kill someone to get money(s)!"
+  Salary: 1500
 3:
   Name: "Ore Miner"
   Job-Type: "miner"
