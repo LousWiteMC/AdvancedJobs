@@ -6,6 +6,7 @@ use pocketmine\event\Listener;
 use pocketmine\event\PlayerJoinEvent;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
+use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\Player;
 use LousWiteMC\AdvancedJobs\AdvancedJobs;
@@ -13,7 +14,7 @@ use pocketmine\block\{Wood, Wood2, DiamondOre, Diamond, Iron, IronOre, Gold, Gol
 use pocketmine\entity\{Animal, Monster};
 
 class EventListener implements Listener{
-	
+
 	public $plugin;
 
 	public function __construct(AdvancedJobs $plugin){
@@ -47,14 +48,19 @@ class EventListener implements Listener{
 		}
 	}
 
-	public function onKill(EntityDamageByEntityEvent $event){
-		$player = $event->getDamager();
+	public function onKill(PlayerDeathEvent $event){
 		$entity = $event->getEntity();
-		if($player instanceof Player){
-			if($this->plugin->hasJob($player)){
-				if($entity instanceof Player){
-					if($this->plugin->getJob($player) == "killer"){
-						$this->plugin->addProgress($player);
+		$cause = $entity->getLastDamageCause();
+		if($cause instanceof EntityDamageByEntityEvent){
+			$player = $cause->getDamager();
+			if($player instanceof Player){
+				if($this->plugin->hasJob($player)){
+					if($entity instanceof Player){
+						if($this->plugin->getJob($player) == "killer"){
+							$jobId = $this->plugin->getJobID($player);
+							$player->sendPopup("+1500$ For Job!");
+							$this->plugin->money->addMoney($player, $this->plugin->jobs->get($jobId)["Salary"]);
+						}
 					}
 				}
 			}
