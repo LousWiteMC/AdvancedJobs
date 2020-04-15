@@ -6,4 +6,4 @@ main: LousWiteMC\AdvancedJobs\AdvancedJobs
 commands:
   job:
     usage: /job
-    description: Jobs Manager
+    description: Open Jobs Manager
