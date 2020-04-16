@@ -19,6 +19,7 @@ class AdvancedJobs extends PluginBase{
 	public $money;
 
 	public function onEnable() : void{
+		$this->getServer()->getLogger()->Info("§d[§eAdvancedJobs§d] §aEnabled AdvancedJobs By LousWiteMC!\n§d[§eAdvancedJobs§d] §bVersion: 0.2");
 		$this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
 		$this->data = new Config($this->getDataFolder() . "PlayerData.yml", Config::YAML);
 		$this->saveResource("Jobs.yml");
@@ -246,5 +247,11 @@ class AdvancedJobs extends PluginBase{
 		$this->settings->get("Yes-Button"),
 		$this->settings->get("No-Button"));
 		$player->sendForm($form);
+	}
+	
+	public function onDisable(){
+		$this->getServer()->getLogger()->Info("§d[§eAdvancedJobs§d] §cGood bye...");
+		$this->data->save();
+		$this->jobs->save();
 	}
 }
