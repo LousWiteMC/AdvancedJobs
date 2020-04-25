@@ -19,8 +19,11 @@ class AdvancedJobs extends PluginBase{
 	public $money;
 
 	public function onEnable() : void{
-		$this->getServer()->getLogger()->Info("§d[§eAdvancedJobs§d] §aEnabled AdvancedJobs By LousWiteMC!\n§d[§eAdvancedJobs§d] §bVersion: 0.2");
 		$this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
+		$this->load();
+	}
+	
+	public function load() : void{
 		$this->data = new Config($this->getDataFolder() . "PlayerData.yml", Config::YAML);
 		$this->saveResource("Jobs.yml");
 		$this->saveResource("Language.yml");
@@ -30,10 +33,7 @@ class AdvancedJobs extends PluginBase{
 		if(is_null($this->money)){
 			$this->getServer()->getPluginManager()->disablePlugin($this);
 			$this->getServer()->getLogger()->notice("[AdvancedJobs] This plugin required EconomyAPI plugin!\n[AdvancedJobs] You can install it at https://poggit.pmmp.io/p/EconomyAPI/5.7.2");
-		}else{
-			$jobs = count($this->jobs->getAll());
-			$this->getServer()->getLogger()->info("[AdvancedJobs] Loaded {$jobs} Jobs!");
-		}
+		}	
 	}
 
 	public function joinJob(Player $player, int $idJob){
@@ -248,10 +248,6 @@ class AdvancedJobs extends PluginBase{
 		$this->settings->get("No-Button"));
 		$player->sendForm($form);
 	}
-	
 	public function onDisable(){
-		$this->getServer()->getLogger()->Info("§d[§eAdvancedJobs§d] §cGood bye...");
-		$this->data->save();
-		$this->jobs->save();
 	}
 }
