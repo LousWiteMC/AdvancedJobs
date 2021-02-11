@@ -2,7 +2,7 @@
 ![](https://poggit.pmmp.io/shield.state/AdvancedJobs) ![](https://poggit.pmmp.io/shield.dl.total/AdvancedJobs)
 
 
-Advanced Jobs | PocketMine-MP Plugin - MCBE 1.14
+Advanced Jobs | PocketMine-MP Plugin - MCBE 1.16.200
 
 # Commands
 - /job - Open Jobs Manager
