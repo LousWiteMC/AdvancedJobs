@@ -25,15 +25,22 @@ class EventListener implements Listener{
 		$player = $event->getPlayer();
 		$block = $event->getBlock();
 		if($block instanceof Wood or $block instanceof Wood2){
-			if($this->plugin->hasJob($player)){
-				if($this->plugin->getJob($player) == "wood-cutter"){
-					$this->plugin->addProgress($player);
+			$debug = $this->plugin->debug($player);
+			var_dump($debug);
+			if($debug == "true"){
+				if($this->plugin->hasJob($player)){
+					if($this->plugin->getJob($player) == "wood-cutter"){
+						$this->plugin->addProgress($player);
+					}
 				}
 			}
 		}elseif($block instanceof Diamond or $block instanceof DiamondOre or $block instanceof Iron or $block instanceof IronOre or $block instanceof Gold or $block instanceof GoldOre or $block instanceof Emerald or $block instanceof EmeraldOre or $block instanceof Stone or $block instanceof Cobblestone or $block instanceof Redstone or $block instanceof RedstoneOre or $block instanceof Coal or $block instanceof CoalOre or $block instanceof Lapis or $block instanceof LapisOre){
-			if($this->plugin->hasJob($player)){
-				if($this->plugin->getJob($player) == "miner"){
-					$this->plugin->addProgress($player);
+			$debug = $this->plugin->debug($player);
+			if($debug == "true"){
+				if($this->plugin->hasJob($player)){
+					if($this->plugin->getJob($player) == "miner"){
+						$this->plugin->addProgress($player);
+					}
 				}
 			}
 		}
@@ -42,8 +49,11 @@ class EventListener implements Listener{
 	public function onPlace(BlockPlaceEvent $event){
 		$player = $event->getPlayer();
 		if($this->plugin->hasJob($player)){
-			if($this->plugin->getJob($player) == "builder"){
-				$this->plugin->addProgress($player);
+			$debug = $this->plugin->debug($player);
+			if($debug == "true"){
+				if($this->plugin->getJob($player) == "builder"){
+					$this->plugin->addProgress($player);
+				}
 			}
 		}
 	}
@@ -55,11 +65,14 @@ class EventListener implements Listener{
 			if($player instanceof Player){
 				if($this->plugin->hasJob($player)){
 					if($entity instanceof Player){
-						if($this->plugin->getJob($player) == "killer"){
-							$jobId = $this->plugin->getJobID($player);
-							$money = $this->plugin->jobs->get($jobId)["Salary"];
-							$player->sendPopup("+{$money}$ For Job!");
-							$this->plugin->money->addMoney($player, $money);
+						$debug = $this->plugin->debug($player);
+						if($debug == "true"){
+							if($this->plugin->getJob($player) == "killer"){
+								$jobId = $this->plugin->getJobID($player);
+								$money = $this->plugin->jobs->get($jobId)["Salary"];
+								$player->sendPopup("+{$money}$ For Job!");
+								$this->plugin->money->addMoney($player, $money);
+							}
 						}
 					}
 				}

@@ -6,7 +6,7 @@ use pocketmine\Player;
 use LousWiteMC\AdvancedJobs\event\EventListener;
 use pocketmine\utils\Config;
 use pocketmine\command\{CommandSender, Command, ConsoleCommandSender};
-use dktapps\pmforms\{MenuForm, CustomForm, CustomFormResponse, ModalForm, MenuOption};
+use LousWiteMC\AdvancedJobs\libs\dktapps\pmforms\{MenuForm, CustomForm, CustomFormResponse, ModalForm, MenuOption};
 
 class AdvancedJobs extends PluginBase{
 
@@ -18,33 +18,51 @@ class AdvancedJobs extends PluginBase{
 
 	public $money;
 
+	public $st;
+
 	public function onEnable() : void{
 		$this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
 		$this->load();
 	}
-	
+
 	public function load() : void{
 		$this->data = new Config($this->getDataFolder() . "PlayerData.yml", Config::YAML);
 		$this->saveResource("Jobs.yml");
+		$this->saveResource("Settings.yml");
 		$this->saveResource("Language.yml");
 		$this->jobs = new Config($this->getDataFolder() . "Jobs.yml", Config::YAML);
+		$this->st = new Config($this->getDataFolder() . "Settings.yml", Config::YAML);
 		$this->settings = new Config($this->getDataFolder() . "Language.yml");
 		$this->money = $this->getServer()->getPluginManager()->getPlugin("EconomyAPI");
 		if(is_null($this->money)){
 			$this->getServer()->getPluginManager()->disablePlugin($this);
 			$this->getServer()->getLogger()->notice("[AdvancedJobs] This plugin required EconomyAPI plugin!\n[AdvancedJobs] You can install it at https://poggit.pmmp.io/p/EconomyAPI/5.7.2");
-		}	
+		}
+	}
+
+	public function debug(Player $player) : string {
+		$level = $player->getLevel()->getName();
+		$debuglevel = array($this->st->get("Debug-Worlds"));
+		var_dump($level);
+		foreach($debuglevel as $dblv){
+			var_dump($dblv);
+			if(!(in_array($level, $dblv))){
+				return "true";
+			}
+			return "false";
+		}
 	}
 
 	public function joinJob(Player $player, int $idJob){
 		$name = strtolower($player->getName());
 		$jobName = $this->jobs->get($idJob)["Name"];
+		$jobSalary = $this->jobs->get($idJob)["Current-Salary"];
 		if($this->getJobType($idJob) == "killer"){
-			$this->data->set($name, ["JobID" => "{$idJob}", "JobName" => "{$jobName}", "Progress" => 0, "Default-Next-Progress" => 0]);
+			$this->data->set($name, ["JobID" => "{$idJob}", "JobName" => "{$jobName}", "Progress" => 0, "Default-Next-Progress" => 0, "Salary" => $jobSalary]);
 			$this->data->save();
 		}else{
-			$this->data->set($name, ["JobID" => "{$idJob}", "JobName" => "{$jobName}", "Progress" => 0, "Default-Next-Progress" => 1]);
-			$this->data->save();			
+			$this->data->set($name, ["JobID" => "{$idJob}", "JobName" => "{$jobName}", "Progress" => 0, "Default-Next-Progress" => 1, "Salary" => $jobSalary]);
+			$this->data->save();
 		}
 	}
 
@@ -91,26 +109,40 @@ class AdvancedJobs extends PluginBase{
 	}
 
 	public function setNextDefaultProgress(Player $player, int $progress){
+		$money = $this->getSalary($player);
 		$name = strtolower($player->getName());
-		$this->data->set($name, ["JobID" => $this->getJobID($player), "JobName" => $this->getJobName($this->getJobID($player)), "Progress" => $this->getProgress($player), "Default-Next-Progress" => $progress]);
-		$this->data->save();		
+		$this->data->set($name, ["JobID" => $this->getJobID($player), "JobName" => $this->getJobName($this->getJobID($player)), "Progress" => $this->getProgress($player), "Default-Next-Progress" => $progress, "Salary" => $money]);
+		$this->data->save();
 	}
 
 	public function setProgress(Player $player, int $progress){
+		$money = $this->getSalary($player);
 		$name = strtolower($player->getName());
-		$this->data->set($name, ["JobID" => $this->getJobID($player), "JobName" => $this->getJobName($this->getJobID($player)), "Progress" => $progress, "Default-Next-Progress" => $this->getDefaultNextProgress($player)]);
+		$this->data->set($name, ["JobID" => $this->getJobID($player), "JobName" => $this->getJobName($this->getJobID($player)), "Progress" => $progress, "Default-Next-Progress" => $this->getDefaultNextProgress($player), "Salary" => $money]);
 		$this->data->save();
 	}
 
 	public function setNextProgress(Player $player, int $progress){
+		$money = $this->getSalary($player);
 		$name = strtolower($player->getName());
-		$this->data->set($name, ["JobID" => $this->getJobID($player), "JobName" => $this->getJobName($this->getJobID($player)), "Progress" => $this->getProgress($player), "Default-Next-Progress" => $progress]);
-		$this->data->save();		
+		$this->data->set($name, ["JobID" => $this->getJobID($player), "JobName" => $this->getJobName($this->getJobID($player)), "Progress" => $this->getProgress($player), "Default-Next-Progress" => $progress, "Salary" => $money]);
+		$this->data->save();
 	}
 
 	public function getProgress(Player $player){
 		$name = strtolower($player->getName());
-		return intval($this->data->get($name)["Progress"]);
+		return $this->data->get($name)["Progress"];
+	}
+
+	public function getSalary(Player $player) : int{
+		$name = strtolower($player->getName());
+		return $this->data->get($name)["Salary"];
+	}
+
+	public function setSalary(Player $player, int $money){
+		$name = strtolower($player->getName());
+		$this->data->set($name, ["JobID" => $this->getJobID($player), "JobName" => $this->getJobName($this->getJobID($player)), "Progress" => $this->getProgress($player), "Default-Next-Progress" => $this->getDefaultNextProgress($player), "Salary" => $money]);
+		$this->data->save();
 	}
 
 	public function getNextProgress(Player $player){
@@ -142,8 +174,12 @@ class AdvancedJobs extends PluginBase{
 	}
 
 	public function doneJob(Player $player, int $jobId){
-		$jobSalary = $this->jobs->get($jobId)["Salary"];
+		$name = strtolower($player->getName());
+		$moresalary = $this->jobs->get($jobId)["More-Money-Per-Level"];
+		$jobSalary = $this->data->get($name)["Salary"];
+		$nextSalary = $moresalary + $jobSalary;
 		$this->setProgress($player, 0);
+		$this->setSalary($player, $nextSalary);
 		$this->setNextDefaultProgress($player, $this->getDefaultNextProgress($player) +1);
 		$this->money->addMoney($player, $jobSalary);
 		$msg = str_replace(["\n", "{Salary}"], ["\n", $jobSalary], $this->settings->get("Done-Progress-Message"));
@@ -190,7 +226,8 @@ class AdvancedJobs extends PluginBase{
 		$jobInf = $this->getJobInformation($jobID);
 		$jobProgress = $this->getProgress($player);
 		$jobNextProgress = $this->getNextProgress($player);
-		$content = str_replace(["{JobName}", "{JobInformation}", "{JobProgress}", "{JobNextProgress}", "\n"], [$jobName, $jobInf, $jobProgress, $jobNextProgress, "\n"], $this->settings->get("ManagerForm-Content"));
+		$salary = $this->getSalary($player);
+		$content = str_replace(["{JobName}", "{JobInformation}", "{JobProgress}", "{JobNextProgress}", "\n", "{Salary}"], [$jobName, $jobInf, $jobProgress, $jobNextProgress, "\n", $salary], $this->settings->get("ManagerForm-Content"));
 		$form = new MenuForm(
 			$this->settings->get("ManagerForm-Title"),
 			$content,
@@ -225,7 +262,7 @@ class AdvancedJobs extends PluginBase{
 					$submitter->sendMessage($msg);
 				}
 			);
-			$player->sendForm($form);	
+			$player->sendForm($form);
 	}
 
 	public function ConfirmOutJob(Player $player, int $jobId){
