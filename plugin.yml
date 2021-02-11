@@ -1,9 +1,13 @@
+---
 name: AdvancedJobs
-api: 3.11.4
+api:
+- 3.11.4
+- 3.17.0
 author: LousWiteMC
-version: 0.2
+version: "0.3"
 main: LousWiteMC\AdvancedJobs\AdvancedJobs
 commands:
   job:
     usage: /job
     description: Open Jobs Manager
+...
