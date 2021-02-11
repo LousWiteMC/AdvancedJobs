@@ -43,9 +43,7 @@ class AdvancedJobs extends PluginBase{
 	public function debug(Player $player) : string {
 		$level = $player->getLevel()->getName();
 		$debuglevel = array($this->st->get("Debug-Worlds"));
-		var_dump($level);
 		foreach($debuglevel as $dblv){
-			var_dump($dblv);
 			if(!(in_array($level, $dblv))){
 				return "true";
 			}
